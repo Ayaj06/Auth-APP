@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from ..db import get_db
 from .. import models, schemas
@@ -57,7 +57,7 @@ def login_form(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
             detail="User account is suspended"
         )
     
-    user.last_login = datetime.utcnow()
+    user.last_login = datetime.now(timezone.utc).replace(tzinfo=None)
     db.commit()
     
     access_token = create_access_token(data={"sub": user.email})
@@ -82,7 +82,7 @@ def login_json(payload: LoginPayload, db: Session = Depends(get_db)) -> Any:
             detail="User account is suspended"
         )
     
-    user.last_login = datetime.utcnow()
+    user.last_login = datetime.now(timezone.utc).replace(tzinfo=None)
     db.commit()
     
     access_token = create_access_token(data={"sub": user.email})

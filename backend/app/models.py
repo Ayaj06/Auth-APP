@@ -1,5 +1,11 @@
 import datetime
+
+def utcnow():
+    return datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+
+# pyrefly: ignore [missing-import]
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import relationship
 from .db import Base
 
@@ -13,8 +19,8 @@ class User(Base):
     role = Column(String, default="Member")  # Super Admin, Admin, Editor, Viewer, Security Officer, Member
     status = Column(String, default="Active")  # Active, Inactive, Suspended
     avatar_url = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
     last_login = Column(DateTime, nullable=True)
 
     projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
@@ -38,6 +44,6 @@ class ActivityLog(Base):
     event_type = Column(String, nullable=False)  # e.g., "Subscription Upgrade", "API Credits Purchase", "Refund Request"
     description = Column(String, nullable=False)
     amount = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=utcnow)
 
     user = relationship("User", back_populates="activities")

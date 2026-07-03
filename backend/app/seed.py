@@ -1,4 +1,7 @@
 import datetime
+
+def utcnow():
+    return datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
 from .db import SessionLocal, engine
 from . import models
 from .auth_utils import get_password_hash
@@ -75,7 +78,7 @@ def seed_db():
             role=ud["role"],
             status=ud["status"],
             avatar_url=ud["avatar_url"],
-            last_login=datetime.datetime.utcnow() - datetime.timedelta(hours=6)
+            last_login=utcnow() - datetime.timedelta(hours=6)
         )
         db.add(u)
         users.append(u)
@@ -143,33 +146,33 @@ def seed_db():
             event_type="Subscription Upgrade",
             description="Upgraded to Enterprise Plan",
             amount=2400.00,
-            created_at=datetime.datetime.utcnow() - datetime.timedelta(days=1)
+            created_at=utcnow() - datetime.timedelta(days=1)
         ),
         models.ActivityLog(
             user_id=michael_chen.id,
             event_type="API Credits Purchase",
             description="Purchased 50k requests bundle",
             amount=450.00,
-            created_at=datetime.datetime.utcnow() - datetime.timedelta(days=2)
+            created_at=utcnow() - datetime.timedelta(days=2)
         ),
         models.ActivityLog(
             user_id=robert_wilson.id,
             event_type="Refund Request",
             description="Duplicate billing issue",
             amount=-120.00,
-            created_at=datetime.datetime.utcnow() - datetime.timedelta(days=2)
+            created_at=utcnow() - datetime.timedelta(days=2)
         ),
         models.ActivityLog(
             user_id=jordan.id,
             event_type="Project Updated",
             description="Pushed 4 commits to HyperScale Infrastructure",
-            created_at=datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+            created_at=utcnow() - datetime.timedelta(hours=4)
         ),
         models.ActivityLog(
             user_id=sarah_c.id,
             event_type="Asset Created",
             description="Added new layout assets to Design System",
-            created_at=datetime.datetime.utcnow() - datetime.timedelta(hours=8)
+            created_at=utcnow() - datetime.timedelta(hours=8)
         )
     ]
     

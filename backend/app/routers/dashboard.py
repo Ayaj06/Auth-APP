@@ -25,7 +25,7 @@ def get_dashboard_stats(
         active_users = 1284  # demo fallback
         
     # 3. New Signups (count of users registered in the last 30 days)
-    thirty_days_ago = datetime.datetime.utcnow() - datetime.timedelta(days=30)
+    thirty_days_ago = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=30)
     new_signups = db.query(models.User).filter(models.User.created_at >= thirty_days_ago).count()
     if new_signups == 0:
         new_signups = 1204  # demo fallback
