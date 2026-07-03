@@ -45,7 +45,7 @@ export const Profile = () => {
       <Sidebar />
       <Header />
 
-      <main className="md:ml-64 p-6 md:p-8 min-h-[calc(100vh-64px)] max-w-2xl mx-auto w-full">
+      <main className="md:ml-64 p-6 md:p-8 min-h-[calc(100vh-64px)] max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-on-surface mb-1">Profile & Settings</h1>
           <p className="text-sm text-on-surface-variant">Update your account settings and personal details.</p>

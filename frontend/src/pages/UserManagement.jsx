@@ -191,7 +191,7 @@ export const UserManagement = () => {
       <Sidebar />
       <Header />
 
-      <main className="md:ml-64 p-6 md:p-8 min-h-[calc(100vh-64px)] max-w-[1400px] mx-auto w-full">
+      <main className="md:ml-64 p-6 md:p-8 min-h-[calc(100vh-64px)] max-w-[1400px] mx-auto">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>

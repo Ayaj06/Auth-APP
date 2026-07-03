@@ -66,7 +66,7 @@ export const Dashboard = () => {
       <Header />
       
       {/* Main Canvas */}
-      <main className="md:ml-64 p-6 md:p-8 space-y-8 max-w-[1400px] mx-auto w-full">
+      <main className="md:ml-64 p-6 md:p-8 space-y-8 max-w-[1400px] mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -266,7 +266,8 @@ export const Dashboard = () => {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            {/* Desktop Table view */}
+            <table className="w-full text-left border-collapse hidden md:table">
               <thead>
                 <tr className="bg-surface-container/50 border-b border-outline-variant">
                   <th className="px-6 py-3.5 text-xs font-bold text-on-surface-variant uppercase tracking-wider">User</th>
@@ -322,6 +323,46 @@ export const Dashboard = () => {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile Card view */}
+            <div className="md:hidden divide-y divide-outline-variant">
+              {stats.recent_activities.map((activity) => (
+                <div key={activity.id} className="p-4 space-y-3 hover:bg-surface-container/10 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      {activity.user?.avatar_url ? (
+                        <img className="w-7 h-7 rounded-full object-cover" src={activity.user.avatar_url} alt="avatar" />
+                      ) : (
+                        <div className="w-7 h-7 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-xs">
+                          {activity.user?.full_name ? activity.user.full_name[0] : 'U'}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs font-semibold text-on-surface">{activity.user?.full_name || 'System'}</p>
+                        <p className="text-[10px] text-on-surface-variant">{activity.user?.email || 'system@saaspro.io'}</p>
+                      </div>
+                    </div>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter ${
+                      activity.amount && activity.amount < 0
+                        ? 'bg-red-50 text-red-700' 
+                        : 'bg-emerald-50 text-emerald-700'
+                    }`}>
+                      {activity.amount && activity.amount < 0 ? 'Pending' : 'Completed'}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-on-surface">{activity.event_type}</p>
+                    <p className="text-xs text-on-surface-variant mt-0.5">{activity.description}</p>
+                  </div>
+                  <div className="flex justify-between items-center pt-1 text-[11px] text-on-surface-variant font-medium">
+                    <span>{new Date(activity.created_at).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'})}</span>
+                    <span className={`font-bold ${activity.amount && activity.amount < 0 ? 'text-red-500' : 'text-on-surface'}`}>
+                      {activity.amount ? `${activity.amount < 0 ? '-' : ''}$${Math.abs(activity.amount).toFixed(2)}` : '--'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>
